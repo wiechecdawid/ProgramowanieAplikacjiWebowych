@@ -3,12 +3,7 @@ const avgElement = (document.querySelector('#avg') as HTMLInputElement);
 const minElement = (document.querySelector('#min') as HTMLInputElement);
 const maxElement = (document.querySelector('#max') as HTMLInputElement);
 
-const values = [...document.querySelectorAll('.numberInput')];
-
-sumElement.value = sum(values).toString();
-avgElement.value = avg(values).toString();
-minElement.value = min(values).toString();
-maxElement.value = max(values).toString();
+const values = [...document.querySelectorAll('.numberInput')] as HTMLInputElement[];
 
 let convertToNumbers = (arr: HTMLInputElement[]) => {
     let newArr = [];
@@ -21,8 +16,13 @@ let convertToNumbers = (arr: HTMLInputElement[]) => {
     return newArr
 }
 
+sumElement.value = sum(values).toString();
+avgElement.value = avg(values).toString();
+minElement.value = min(values).toString();
+maxElement.value = max(values).toString();
+
 values.forEach(val => {
-    val.addEventListener('change', modifyOutcomes)
+    val.addEventListener('input', modifyOutcomes)
 });
 
 function sum(arr: any[]) {
@@ -55,7 +55,7 @@ function max(arr: any[]) {
     return temp[temp.length - 1]
 }
 
-const modifyOutcomes = () => {
+function modifyOutcomes() {
     sumElement.value = sum(values).toString();
     avgElement.value = avg(values).toString();
     minElement.value = min(values).toString();

@@ -3,10 +3,6 @@ const avgElement = document.querySelector('#avg');
 const minElement = document.querySelector('#min');
 const maxElement = document.querySelector('#max');
 const values = [...document.querySelectorAll('.numberInput')];
-sumElement.value = sum(values).toString();
-avgElement.value = avg(values).toString();
-minElement.value = min(values).toString();
-maxElement.value = max(values).toString();
 let convertToNumbers = (arr) => {
     let newArr = [];
     arr.forEach(element => {
@@ -15,8 +11,12 @@ let convertToNumbers = (arr) => {
     });
     return newArr;
 };
+sumElement.value = sum(values).toString();
+avgElement.value = avg(values).toString();
+minElement.value = min(values).toString();
+maxElement.value = max(values).toString();
 values.forEach(val => {
-    val.addEventListener('change', modifyOutcomes);
+    val.addEventListener('input', modifyOutcomes);
 });
 function sum(arr) {
     let temp = convertToNumbers(arr);
@@ -39,10 +39,10 @@ function max(arr) {
     temp.sort((a, b) => a - b);
     return temp[temp.length - 1];
 }
-const modifyOutcomes = () => {
+function modifyOutcomes() {
     sumElement.value = sum(values).toString();
     avgElement.value = avg(values).toString();
     minElement.value = min(values).toString();
     maxElement.value = max(values).toString();
-};
+}
 //# sourceMappingURL=index.js.map
