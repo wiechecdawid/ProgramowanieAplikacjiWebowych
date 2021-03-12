@@ -12,6 +12,7 @@ const convertToNumbers = (arr) => {
     });
     return newArr;
 };
+const deleteButton = document.querySelector('#deleteButton');
 const createInputs = (inputsCount) => {
     let temp = [];
     for (let i = 0; i < inputsCount; i++) {
@@ -28,15 +29,24 @@ valAdder.addEventListener('change', () => {
     let count = +valAdder.value;
     for (let i = 0; i < count; i++) {
         let newInput = document.createElement('input');
-        newInput.type = "number";
+        //newInput.type = "number"
+        newInput.className = 'numberInput';
         newInput.value = '0';
         inputsDiv.appendChild(newInput);
         let children = [...newInput.parentElement.children];
         newInput.addEventListener('input', () => {
-            if (isNaN(+newInput))
-                modifyOutcomes(children);
+            validateInput(newInput);
+            modifyOutcomes(children);
         });
     }
+});
+deleteButton.addEventListener('click', () => {
+    let inputs = [...document.querySelectorAll('.numberInput')];
+    console.log(inputs);
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].parentNode.removeChild(inputs[i]);
+    }
+    console.log(inputs);
 });
 function sum(arr) {
     let temp = convertToNumbers(arr);
@@ -64,5 +74,14 @@ function modifyOutcomes(values) {
     avgElement.value = avg(values).toString();
     minElement.value = min(values).toString();
     maxElement.value = max(values).toString();
+}
+function validateInput(input) {
+    let validation = document.querySelector('.validation');
+    if (isNaN(+input.value)) {
+        validation.style.visibility = 'visible';
+    }
+    else {
+        validation.style.visibility = 'hidden';
+    }
 }
 //# sourceMappingURL=index.js.map

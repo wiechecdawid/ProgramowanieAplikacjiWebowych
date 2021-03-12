@@ -18,6 +18,8 @@ const convertToNumbers = (arr: HTMLInputElement[]) => {
     return newArr
 }
 
+const deleteButton = document.querySelector('#deleteButton') as HTMLButtonElement;
+
 const createInputs = (inputsCount: number) => {
     let temp: HTMLInputElement[] = [];
     
@@ -40,19 +42,31 @@ valAdder.addEventListener('change', () => {
 
     for(let i = 0; i < count; i++) {
         let newInput = document.createElement('input') as HTMLInputElement;
-        newInput.type = "number"
+        //newInput.type = "number"
+        newInput.className = 'numberInput'
         newInput.value = '0'
       
         inputsDiv.appendChild(newInput);
 
         let children = [...newInput.parentElement.children] as HTMLInputElement[];
         newInput.addEventListener('input', () =>{
-            if(isNaN(+newInput.value))
-
+            validateInput(newInput)
             modifyOutcomes(children)
         })
     }
 });
+
+deleteButton.addEventListener('click', () => {
+    let inputs = [...document.querySelectorAll('.numberInput')] as HTMLInputElement[];
+
+    console.log(inputs)
+
+    for(let i = 0; i < inputs.length; i++) {
+        inputs[i].parentNode.removeChild(inputs[i]);
+    }
+
+    console.log(inputs)
+})
 
 function sum(arr: HTMLInputElement[]) {
     let temp: number[] = convertToNumbers(arr)    
@@ -89,4 +103,14 @@ function modifyOutcomes(values: HTMLInputElement[]) {
     avgElement.value = avg(values).toString();
     minElement.value = min(values).toString();
     maxElement.value = max(values).toString();
+}
+
+function validateInput(input: HTMLInputElement) {
+    let validation = document.querySelector('.validation') as HTMLDivElement;
+
+    if(isNaN(+input.value)) {
+        validation.style.visibility = 'visible'
+    } else {
+        validation.style.visibility = 'hidden'
+    }
 }
