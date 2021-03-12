@@ -3,9 +3,11 @@ const avgElement = (document.querySelector('#avg') as HTMLInputElement);
 const minElement = (document.querySelector('#min') as HTMLInputElement);
 const maxElement = (document.querySelector('#max') as HTMLInputElement);
 
-const values = [...document.querySelectorAll('.numberInput')] as HTMLInputElement[];
+const valAdder = document.querySelector('.addInputs') as HTMLInputElement;
 
-let convertToNumbers = (arr: HTMLInputElement[]) => {
+//const values = [...document.querySelectorAll('.numberInput')] as HTMLInputElement[];
+
+const convertToNumbers = (arr: HTMLInputElement[]) => {
     let newArr = [];
 
     arr.forEach(element => {
@@ -16,16 +18,43 @@ let convertToNumbers = (arr: HTMLInputElement[]) => {
     return newArr
 }
 
-sumElement.value = sum(values).toString();
-avgElement.value = avg(values).toString();
-minElement.value = min(values).toString();
-maxElement.value = max(values).toString();
+const createInputs = (inputsCount: number) => {
+    let temp: HTMLInputElement[] = [];
+    
+    for(let i = 0; i < inputsCount; i++) {
+        let inp = document.createElement('input');
+        inp.className = 'dataInput'
+        temp.push(inp);
+    }
 
-values.forEach(val => {
-    val.addEventListener('input', modifyOutcomes)
+    return temp;
+}
+
+valAdder.addEventListener('change', () => {
+    let container = document.querySelector('.inputs') as HTMLDivElement;
+    let inputsDiv = document.createElement('div') as HTMLDivElement;
+
+    container.appendChild(inputsDiv);
+
+    let count: number = +valAdder.value;
+
+    for(let i = 0; i < count; i++) {
+        let newInput = document.createElement('input') as HTMLInputElement;
+        newInput.type = "number"
+        newInput.value = '0'
+      
+        inputsDiv.appendChild(newInput);
+
+        let children = [...newInput.parentElement.children] as HTMLInputElement[];
+        newInput.addEventListener('input', () =>{
+            if(isNaN(+newInput.value))
+
+            modifyOutcomes(children)
+        })
+    }
 });
 
-function sum(arr: any[]) {
+function sum(arr: HTMLInputElement[]) {
     let temp: number[] = convertToNumbers(arr)    
     let s: number = 0;
 
@@ -35,27 +64,27 @@ function sum(arr: any[]) {
     return s
 }
 
-function avg (arr: any[]) {
+function avg (arr: HTMLInputElement[]) {
     let s = sum(arr)
 
     return s / arr.length
 }
 
-function min (arr: any[]) {
+function min (arr: HTMLInputElement[]) {
     let temp: number[] = convertToNumbers(arr)
     temp.sort((a, b) => a - b)
 
     return temp[0]
 }
 
-function max(arr: any[]) {
+function max(arr: HTMLInputElement[]) {
     let temp: number[] = convertToNumbers(arr)
     temp.sort((a, b) => a - b)
 
     return temp[temp.length - 1]
 }
 
-function modifyOutcomes() {
+function modifyOutcomes(values: HTMLInputElement[]) {
     sumElement.value = sum(values).toString();
     avgElement.value = avg(values).toString();
     minElement.value = min(values).toString();

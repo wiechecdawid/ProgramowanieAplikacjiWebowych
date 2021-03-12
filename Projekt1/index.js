@@ -2,8 +2,9 @@ const sumElement = document.querySelector('#sum');
 const avgElement = document.querySelector('#avg');
 const minElement = document.querySelector('#min');
 const maxElement = document.querySelector('#max');
-const values = [...document.querySelectorAll('.numberInput')];
-let convertToNumbers = (arr) => {
+const valAdder = document.querySelector('.addInputs');
+//const values = [...document.querySelectorAll('.numberInput')] as HTMLInputElement[];
+const convertToNumbers = (arr) => {
     let newArr = [];
     arr.forEach(element => {
         let num = +element.value;
@@ -11,12 +12,31 @@ let convertToNumbers = (arr) => {
     });
     return newArr;
 };
-sumElement.value = sum(values).toString();
-avgElement.value = avg(values).toString();
-minElement.value = min(values).toString();
-maxElement.value = max(values).toString();
-values.forEach(val => {
-    val.addEventListener('input', modifyOutcomes);
+const createInputs = (inputsCount) => {
+    let temp = [];
+    for (let i = 0; i < inputsCount; i++) {
+        let inp = document.createElement('input');
+        inp.className = 'dataInput';
+        temp.push(inp);
+    }
+    return temp;
+};
+valAdder.addEventListener('change', () => {
+    let container = document.querySelector('.inputs');
+    let inputsDiv = document.createElement('div');
+    container.appendChild(inputsDiv);
+    let count = +valAdder.value;
+    for (let i = 0; i < count; i++) {
+        let newInput = document.createElement('input');
+        newInput.type = "number";
+        newInput.value = '0';
+        inputsDiv.appendChild(newInput);
+        let children = [...newInput.parentElement.children];
+        newInput.addEventListener('input', () => {
+            if (isNaN(+newInput))
+                modifyOutcomes(children);
+        });
+    }
 });
 function sum(arr) {
     let temp = convertToNumbers(arr);
@@ -39,7 +59,7 @@ function max(arr) {
     temp.sort((a, b) => a - b);
     return temp[temp.length - 1];
 }
-function modifyOutcomes() {
+function modifyOutcomes(values) {
     sumElement.value = sum(values).toString();
     avgElement.value = avg(values).toString();
     minElement.value = min(values).toString();
