@@ -1,8 +1,9 @@
 let clapSound: HTMLAudioElement;
 let kickSound: HTMLAudioElement;
 let channel1Btn: HTMLButtonElement;
+let recordBtn: HTMLButtonElement;
 
-const channelArr: any[] = [];
+let channelArr: { key: string, stamp: number }[] = [];
 
 function appStart(): void {
     document.addEventListener('keypress', onKeyPressed);
@@ -10,13 +11,19 @@ function appStart(): void {
     channel1Btn = document.querySelectorAll('.channelButton')[0] as HTMLButtonElement;
     channel1Btn.addEventListener('click', onChannelPlayed);
 
+    recordBtn = document.querySelectorAll('.recordButton')[0] as HTMLButtonElement;
+    recordBtn.addEventListener('click', onChannelRecorded)
+
     getAudioTags();
 }
 
 function onChannelPlayed(): void {
     channelArr.forEach(sound => {
-        setTimeout(() => playSound(sound.key), sound.time);
-    })
+        setTimeout(() => { 
+            console.log(sound);
+            playSound(sound.key)
+        }, sound.stamp - channelArr[0].stamp);
+    });
 }
 
 function getAudioTags(): void {
@@ -33,9 +40,17 @@ function onKeyPressed(ev: KeyboardEvent): void {
 
     playSound(key);
 
-    console.log(ev);
+    console.log(channelArr);
 }
 
+
+function onChannelRecorded(ev: MouseEvent) {
+    channelArr = [];
+    const key = '-';
+    const stamp = ev.timeStamp;
+
+    channelArr.push({ key, stamp })
+}
 
 function playSound(key: string): void {
     switch(key) {
@@ -51,3 +66,4 @@ function playSound(key: string): void {
 }
 
 appStart();
+
