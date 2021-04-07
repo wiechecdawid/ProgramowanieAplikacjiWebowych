@@ -1,4 +1,42 @@
-import SoundHelper from './sounds';
+interface ISoundSet {
+    boomSound: HTMLAudioElement,
+    clapSound: HTMLAudioElement,
+    hihatSound: HTMLAudioElement,
+    kickSound: HTMLAudioElement,
+    openhatSound: HTMLAudioElement,
+    rideSound: HTMLAudioElement,
+    snareSound: HTMLAudioElement,
+    tinkSound: HTMLAudioElement,
+    tomSound: HTMLAudioElement
+}
+
+class SoundHelper {
+    soundSet: ISoundSet = {
+        boomSound: document.querySelector('[data-sound="boom"]'),
+        clapSound: document.querySelector('[data-sound="clap"]'),
+        hihatSound: document.querySelector('[data-sound="hihat"]'),
+        kickSound: document.querySelector('[data-sound="kick"]'),
+        openhatSound: document.querySelector('[data-sound="openhat"]'),
+        rideSound: document.querySelector('[data-sound="ride"]'),
+        snareSound: document.querySelector('[data-sound="snare"]'),
+        tinkSound: document.querySelector('[data-sound="tink"]'),
+        tomSound: document.querySelector('[data-sound="tom"]')
+    }
+
+    playSound(key: string): void {
+        for(const property in this.soundSet) {
+            let temp: HTMLAudioElement = this.soundSet[property];
+
+            if(key === temp.dataset.key)
+            {
+                temp.currentTime = 0;
+                temp.play();
+
+                return;
+            }
+        }
+    }
+}
 
 interface IChannel {
     isRecording: boolean,
@@ -12,16 +50,20 @@ interface IChannel {
 }
 
 class App {
-    channels: IChannel[] = this.setChannels(document.querySelectorAll('.channel'));
+    channels: IChannel[] = [];
 
     setChannels(channelDivs: NodeListOf<Element>): IChannel[] {
-        let channels: IChannel[] = [];
-        let channel: IChannel;
-        channel.isRecording = false;
-        channel.soundHelper = new SoundHelper();
-        channel.sounds = [];
-        channel.onRecordPressed = onChannelRecorded;
-        channel.onPlayPressed = onChannelPlayed;
+        let chans: IChannel[] = [];
+        let channel: IChannel = {
+            isRecording: false,
+            soundHelper: new SoundHelper(),
+            sounds: [],
+            onRecordPressed: onChannelRecorded,
+            onPlayPressed: onChannelPlayed,
+            playBtn: {} as HTMLButtonElement,
+            recordBtn: {} as HTMLButtonElement
+        };
+        
 
         channelDivs.forEach(el => {
             channel.playBtn = el.children[1] as HTMLButtonElement;
@@ -30,14 +72,15 @@ class App {
             channel.recordBtn = el.children[0] as HTMLButtonElement;
             channel.recordBtn.addEventListener('click', channel.onRecordPressed)
 
-            channels.push(channel);
+            chans.push(channel);
         })
 
-        return channels;
+        return chans;
     }
 
     appStart(): void {
         document.addEventListener('keypress', this.onKeyPressed)
+        this.channels = this.setChannels(document.querySelectorAll('.channel'));
     }
     
     
