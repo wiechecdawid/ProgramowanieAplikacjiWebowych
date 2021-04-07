@@ -35,6 +35,7 @@ export default class SoundHelper {
 
             if(key === temp.dataset.key)
             {
+                temp.currentTime = 0;
                 temp.play();
 
                 return;
