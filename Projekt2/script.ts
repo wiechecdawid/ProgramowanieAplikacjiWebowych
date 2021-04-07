@@ -1,3 +1,35 @@
+import SoundHelper from './sounds';
+
+interface IChannel {
+    playBtn: HTMLButtonElement,
+    recordBtn: HTMLButtonElement,
+    soundHelper: SoundHelper,
+    sounds: { key: string, stamp: number }[]
+}
+
+class App {
+    channels: IChannel[] = this.setChannels(document.querySelectorAll('.channel'));
+
+    setChannels(channelDivs: NodeListOf<Element>): IChannel[] {
+        let channels: IChannel[] = [];
+        let channel: IChannel;
+        channel.soundHelper = new SoundHelper();
+        channel.sounds = [];
+
+        channelDivs.forEach(el => {
+            channel.playBtn = el.children[1] as HTMLButtonElement;
+            channel.playBtn.addEventListener('click', onChannelPlayed);
+
+            channel.recordBtn = el.children[0] as HTMLButtonElement;
+            channel.recordBtn.addEventListener('click', onChannelRecorded)
+
+            channels.push(channel);
+        })
+
+        return channels;
+    }
+}
+
 let clapSound: HTMLAudioElement;
 let kickSound: HTMLAudioElement;
 let channel1Btn: HTMLButtonElement;
@@ -13,8 +45,6 @@ function appStart(): void {
 
     recordBtn = document.querySelectorAll('.recordButton')[0] as HTMLButtonElement;
     recordBtn.addEventListener('click', onChannelRecorded)
-
-    getAudioTags();
 }
 
 function onChannelPlayed(): void {
@@ -24,12 +54,6 @@ function onChannelPlayed(): void {
             playSound(sound.key)
         }, sound.stamp - channelArr[0].stamp);
     });
-}
-
-function getAudioTags(): void {
-    // const clapSound = document.querySelector('#clap');
-    clapSound = document.querySelector('[data-sound="clap"]');
-    kickSound = document.querySelector('[data-sound="kick"]');
 }
 
 function onKeyPressed(ev: KeyboardEvent): void {
