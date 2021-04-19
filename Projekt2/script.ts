@@ -44,28 +44,28 @@ interface IChannel {
     recordBtn: HTMLButtonElement,
     sounds: { key: string, stamp: number }[]
 
-    onPlayPressed(): void,
+    onPlayPressed(ev: MouseEvent): void,
     onRecordPressed(ev: MouseEvent): void
 }
 
 class App {
     setChannels(channelDivs: NodeListOf<Element>): IChannel[] {
-        let chans: IChannel[] = [];
-        let channel: IChannel = {
-            isRecording: false,
-            sounds: [],
-            onRecordPressed: (ev: MouseEvent) => onChannelRecorded(ev),
-            onPlayPressed: onChannelPlayed,
-            playBtn: {} as HTMLButtonElement,
-            recordBtn: {} as HTMLButtonElement
-        };        
+        let chans: IChannel[] = []; 
 
         channelDivs.forEach(el => {
+            let channel: IChannel = {
+                isRecording: false,
+                sounds: [],
+                onRecordPressed: (ev: MouseEvent) => onChannelRecorded(ev),
+                onPlayPressed: (ev: MouseEvent) => onChannelPlayed(ev),
+                playBtn: {} as HTMLButtonElement,
+                recordBtn: {} as HTMLButtonElement
+            };       
             channel.playBtn = el.children[1] as HTMLButtonElement;
-            channel.playBtn.addEventListener('click', () => channel.onPlayPressed);
+            channel.playBtn.addEventListener('click', channel.onPlayPressed);
 
             channel.recordBtn = el.children[0] as HTMLButtonElement;
-            channel.recordBtn.addEventListener('click', () => channel.onRecordPressed)
+            channel.recordBtn.addEventListener('click', channel.onRecordPressed)
 
             chans.push(channel);
         })
@@ -73,7 +73,7 @@ class App {
         return chans;
     }
 
-    channels: IChannel[] = this.setChannels(document.querySelectorAll('.channel'));;
+    channels: IChannel[] = this.setChannels(document.querySelectorAll('.channel'));
 
     appStart(): void {
         document.addEventListener('keypress', this.onKeyPressed)
@@ -83,14 +83,11 @@ class App {
     onKeyPressed = (ev: KeyboardEvent): void => {
         const key = ev.key;
         const stamp = ev.timeStamp;
-        console.log( { key, stamp} )
-        console.log( this.channels )
         soundHelper.playSound(key);
 
         this.channels.forEach(ch => {
             if(ch.isRecording) {                
                 ch.sounds.push({ key, stamp });
-                console.log(ch.sounds);
             }
         });
     }
@@ -100,24 +97,32 @@ const app = new App();
 app.appStart();
 
 function onChannelRecorded(ev: MouseEvent) {
+    console.log('recording started')
     app.channels.forEach(ch => {
         ch.isRecording = false;
-        ch.sounds = [];
     })
 
-    console.log(this);
+    let btn = ev.target as HTMLButtonElement
+    let id = Number(btn.id.substr(btn.id.length - 1));
 
-    this.isRecording = true;
+    let chan: IChannel = app.channels[id - 1]
+
+    chan.isRecording = true;
+    chan.sounds = [];
 
     const key = '-';
     const stamp = ev.timeStamp;
 
-    this.sounds.push({ key, stamp });
+    chan.sounds.push({ key, stamp });
 }
 
-function onChannelPlayed(): void {
-    this.sounds.forEach(sound => {
-        setTimeout( this.soundHelper.playSound(sound.key), sound.stamp-this.sounds[0].stamp );
+function onChannelPlayed(ev: MouseEvent): void {
+    let btn = ev.target as HTMLButtonElement;
+    let id = Number(btn.id.substr(btn.id.length - 1));
+    let chan: IChannel = app.channels[id - 1];
+
+    chan.sounds.forEach(sound => {
+        setTimeout( () => soundHelper.playSound(sound.key), sound.stamp - chan.sounds[0].stamp );
     });
 }
 
