@@ -15,8 +15,17 @@ cities.forEach(city => {
         .then(wBox => showOnPage(wBox));    
 })
 
-
-//const london = require("../tempPopulate/london.json")
+setInterval(() => {
+    cities.forEach(city => {
+        let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric&lang=pl`;
+    
+        fetch(url)
+            .then(response => response.json())
+            .then(data => wBox = setBox(data))
+            .then(wBox => showOnPage(wBox))
+            .then(() => console.log(wBox));    
+    })
+}, 60000);
 
 function setBox(data: any) {
     const wBox: WeatherBox = {
@@ -47,26 +56,43 @@ function setBox(data: any) {
 }
 
 function showOnPage(weatherBox: WeatherBox) :void {
-    const box = document.createElement('div');
-    box.className = 'weatherBox';
+    let box = document.querySelector(`#${weatherBox.city.name}`)
+    let cityInfo, weatherInfo, mainInfo
 
-    const cityInfo = document.createElement('div');
-    box.className = 'cityInfo';
+    if(box === null) {
+        box = document.createElement('div');
+        box.className = 'weatherBox';
+        box.id = weatherBox.city.name;
+        document.body.appendChild(box);
 
-    const weatherInfo = document.createElement('div');
-    weatherInfo.className = 'weatherInfo';
+        cityInfo = document.createElement('div');
+        cityInfo.className = 'cityInfo';
+        box.appendChild(cityInfo);
 
-    const mainInfo = document.createElement('div');
-    weatherInfo.className = 'mainInfo';
+        weatherInfo = document.createElement('div');
+        weatherInfo.className = 'weatherInfo';
+        box.appendChild(weatherInfo);
+
+        mainInfo = document.createElement('div');
+        mainInfo.className = 'mainInfo';
+        box.appendChild(mainInfo);
+    } else {
+        cityInfo = box.querySelector('.cityInfo')
+        weatherInfo = box.querySelector('.weatherInfo')
+        mainInfo = box.querySelector('.mainInfo')
+    }
 
     cityInfo.innerHTML = `${weatherBox.city.name}, ${weatherBox.city.country}, UTC+${weatherBox.city.timezone/3600}`
     weatherInfo.innerHTML = `${weatherBox.weather.main} - ${weatherBox.weather.description}`
     mainInfo.innerHTML = `Temperatura: ${weatherBox.main.temp}&degC, ciśnienie ${weatherBox.main.pressure} hPa, wilgotność powietrza: ${weatherBox.main.humidity}%`
+}
+
+function updateWeather(weatherBox: WeatherBox) :void {
+    let boxes = document.querySelectorAll('.weatherBox') as NodeListOf<HTMLDivElement>;
 
 
+}
 
-    box.appendChild(cityInfo);
-    box.appendChild(weatherInfo);
-    box.appendChild(mainInfo);
-    document.body.appendChild(box);
+function updateElement(el: HTMLDivElement, innerMessage: string): void {
+
 }
