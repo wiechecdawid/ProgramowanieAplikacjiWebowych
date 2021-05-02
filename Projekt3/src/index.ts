@@ -1,31 +1,25 @@
 import './style.scss';
 import { WeatherBox } from "./weather-box"
 
-const cities = [ 'Kraków', 'Warszawa', 'Londyn', 'Madryt' ]
+const cities = (JSON.parse(localStorage.getItem('cities')) as string[]) ?? [];
 
 const key = '26d7bb3aebea98160fd283b90481b491'
 let wBox: WeatherBox;
 
-cities.forEach(city => {
-    let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric&lang=pl`;
+const form = document.querySelector('.form') as HTMLFormElement;
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const city = form.querySelector('.add') as HTMLInputElement;
+    cities.push(city.value);
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => wBox = setBox(data))
-        .then(wBox => showOnPage(wBox));    
+    updateWeather(cities);
+    city.value = "";
+    localStorage.setItem('cities', JSON.stringify(cities));
 })
 
-setInterval(() => {
-    cities.forEach(city => {
-        let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric&lang=pl`;
-    
-        fetch(url)
-            .then(response => response.json())
-            .then(data => wBox = setBox(data))
-            .then(wBox => showOnPage(wBox))
-            .then(() => console.log(wBox));    
-    })
-}, 60000);
+updateWeather(cities);
+
+setInterval(() => updateWeather(cities), 60000);
 
 function setBox(data: any) {
     const wBox: WeatherBox = {
@@ -87,12 +81,14 @@ function showOnPage(weatherBox: WeatherBox) :void {
     mainInfo.innerHTML = `Temperatura: ${weatherBox.main.temp}&degC, ciśnienie ${weatherBox.main.pressure} hPa, wilgotność powietrza: ${weatherBox.main.humidity}%`
 }
 
-function updateWeather(weatherBox: WeatherBox) :void {
-    let boxes = document.querySelectorAll('.weatherBox') as NodeListOf<HTMLDivElement>;
+function updateWeather(cities: string[]) :void {
+    cities&&
+    cities.forEach(city => {
+        let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric&lang=pl`;
 
-
-}
-
-function updateElement(el: HTMLDivElement, innerMessage: string): void {
-
+        fetch(url)
+            .then(response => response.json())
+            .then(data => wBox = setBox(data))
+            .then(wBox => showOnPage(wBox)); 
+    }) 
 }
