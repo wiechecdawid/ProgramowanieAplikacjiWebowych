@@ -77,7 +77,7 @@ function showOnPage(weatherBox: WeatherBox) :void {
         mainInfo = box.querySelector('.mainInfo')
     }
 
-    cityInfo.innerHTML = `${weatherBox.city.name}, ${weatherBox.city.country}, UTC+${weatherBox.city.timezone/3600}`
+    cityInfo.innerHTML = `${weatherBox.city.name}, ${weatherBox.city.country}, UTC+${weatherBox.city.timezone/3600}, ${getDate(weatherBox.city.dt)}`
     weatherInfo.innerHTML = `${weatherBox.weather.main} - ${weatherBox.weather.description}`
     mainInfo.innerHTML = `Temperatura: ${weatherBox.main.temp}&degC, ciśnienie ${weatherBox.main.pressure} hPa, wilgotność powietrza: ${weatherBox.main.humidity}%`
 }
@@ -94,4 +94,13 @@ function updateWeather(cities: string[]) :void {
     }) 
 
     console.log('Weather updated');
+}
+
+function getDate(timestamp :number) :string {
+    let date = new Date(timestamp*1000);
+    let hours = date.getHours();
+    let minutes = "0" + date.getMinutes();
+    let seconds = "0" + date.getSeconds();
+
+    return hours + ':' + minutes.substr(-2);
 }
