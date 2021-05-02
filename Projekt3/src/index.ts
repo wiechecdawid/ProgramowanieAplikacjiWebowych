@@ -1,53 +1,69 @@
 import './style.scss';
 import { WeatherBox } from "./weather-box"
 
-let link = 'http://api.openweathermap.org/data/2.5/weather?q=london&appid=26d7bb3aebea98160fd283b90481b491&units=metric';
+let city = 'london'
+const key = '26d7bb3aebea98160fd283b90481b491'
+let wBox: WeatherBox;
 
-const london = require("../tempPopulate/london.json")
+let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric`;
 
-const wBox: WeatherBox = {
-    weather: {
-        id: london['weather']['id'],
-        main: london['weather'][0]['main'],
-        description: london['weather'][0]['description']
-    },
-    city: {
-        timezone: london['timezone'],
-        id: london['id'],
-        name: london['name'],
-        country: london['sys']['country'],
-        sunrise: london['sys']['sunrise'],
-        sunset: london['sys']['sunset'],
-        dt: london['dt']
-    },
-    main: {
-        temp: london['main']['temp'],
-        pressure: london['main']['pressure'],
-        humidity: london['main']['humidity'],
-        tempMin: london['main']['temp_min'],
-        tempMax: london['main']['temp_max']
+fetch(url)
+    .then(response => response.json())
+    .then(data => wBox = setBox(data))
+    .then(wBox => showOnPage(wBox));
+
+
+//const london = require("../tempPopulate/london.json")
+
+function setBox(data: any) {
+    const wBox: WeatherBox = {
+        weather: {
+            id: data['weather']['id'],
+            main: data['weather'][0]['main'],
+            description: data['weather'][0]['description']
+        },
+        city: {
+            timezone: data['timezone'],
+            id: data['id'],
+            name: data['name'],
+            country: data['sys']['country'],
+            sunrise: data['sys']['sunrise'],
+            sunset: data['sys']['sunset'],
+            dt: data['dt']
+        },
+        main: {
+            temp: data['main']['temp'],
+            pressure: data['main']['pressure'],
+            humidity: data['main']['humidity'],
+            tempMin: data['main']['temp_min'],
+            tempMax: data['main']['temp_max']
+        }
     }
+
+    return wBox
 }
 
-const box = document.createElement('div');
-box.className = 'weatherBox';
+function showOnPage(weatherBox: WeatherBox) :void {
+    const box = document.createElement('div');
+    box.className = 'weatherBox';
 
-const cityInfo = document.createElement('div');
-box.className = 'cityInfo';
+    const cityInfo = document.createElement('div');
+    box.className = 'cityInfo';
 
-const weatherInfo = document.createElement('div');
-weatherInfo.className = 'weatherInfo';
+    const weatherInfo = document.createElement('div');
+    weatherInfo.className = 'weatherInfo';
 
-const mainInfo = document.createElement('div');
-weatherInfo.className = 'mainInfo';
+    const mainInfo = document.createElement('div');
+    weatherInfo.className = 'mainInfo';
 
-cityInfo.innerHTML = `${wBox.city.name}, ${wBox.city.country}, UTC+${wBox.city.timezone/3600}`
-weatherInfo.innerHTML = `${wBox.weather.main} - ${wBox.weather.description}`
-mainInfo.innerHTML = `Temperature: ${wBox.main.temp}, pressure ${wBox.main.pressure} hPa, humidity: ${wBox.main.humidity}%`
+    cityInfo.innerHTML = `${weatherBox.city.name}, ${weatherBox.city.country}, UTC+${weatherBox.city.timezone/3600}`
+    weatherInfo.innerHTML = `${weatherBox.weather.main} - ${weatherBox.weather.description}`
+    mainInfo.innerHTML = `Temperature: ${weatherBox.main.temp}, pressure ${weatherBox.main.pressure} hPa, humidity: ${weatherBox.main.humidity}%`
 
 
 
-box.appendChild(cityInfo);
-box.appendChild(weatherInfo);
-box.appendChild(mainInfo);
-document.body.appendChild(box);
+    box.appendChild(cityInfo);
+    box.appendChild(weatherInfo);
+    box.appendChild(mainInfo);
+    document.body.appendChild(box);
+}
