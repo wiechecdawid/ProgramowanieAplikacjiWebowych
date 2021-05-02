@@ -57,7 +57,8 @@ function showOnPage(weatherBox: WeatherBox) :void {
         box = document.createElement('div');
         box.className = 'weatherBox';
         box.id = weatherBox.city.name;
-        document.body.appendChild(box);
+        let container = document.querySelector('.weatherBoxes')
+        container.appendChild(box);
 
         cityInfo = document.createElement('div');
         cityInfo.className = 'cityInfo';
