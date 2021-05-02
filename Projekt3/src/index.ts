@@ -91,4 +91,6 @@ function updateWeather(cities: string[]) :void {
             .then(data => wBox = setBox(data))
             .then(wBox => showOnPage(wBox)); 
     }) 
+
+    console.log('Weather updated');
 }
