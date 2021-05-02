@@ -1,16 +1,19 @@
 import './style.scss';
 import { WeatherBox } from "./weather-box"
 
-let city = 'london'
+const cities = [ 'Kraków', 'Warszawa', 'Londyn', 'Madryt' ]
+
 const key = '26d7bb3aebea98160fd283b90481b491'
 let wBox: WeatherBox;
 
-let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric`;
+cities.forEach(city => {
+    let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric&lang=pl`;
 
-fetch(url)
-    .then(response => response.json())
-    .then(data => wBox = setBox(data))
-    .then(wBox => showOnPage(wBox));
+    fetch(url)
+        .then(response => response.json())
+        .then(data => wBox = setBox(data))
+        .then(wBox => showOnPage(wBox));    
+})
 
 
 //const london = require("../tempPopulate/london.json")
@@ -58,7 +61,7 @@ function showOnPage(weatherBox: WeatherBox) :void {
 
     cityInfo.innerHTML = `${weatherBox.city.name}, ${weatherBox.city.country}, UTC+${weatherBox.city.timezone/3600}`
     weatherInfo.innerHTML = `${weatherBox.weather.main} - ${weatherBox.weather.description}`
-    mainInfo.innerHTML = `Temperature: ${weatherBox.main.temp}, pressure ${weatherBox.main.pressure} hPa, humidity: ${weatherBox.main.humidity}%`
+    mainInfo.innerHTML = `Temperatura: ${weatherBox.main.temp}&degC, ciśnienie ${weatherBox.main.pressure} hPa, wilgotność powietrza: ${weatherBox.main.humidity}%`
 
 
 
