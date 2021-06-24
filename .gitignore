@@ -1,3 +1,5 @@
 **/node_modules/
 **/build/
 **/dist/
+**/index.j*
+**/config.j*
