@@ -10,6 +10,9 @@ export class AppStorage implements IAppStorage {
     
     constructor() {
         this.notes = JSON.parse(localStorage.getItem('notes'))
+
+        if( this.notes === null )
+            this.notes = []
     }
 
     saveAll = ( notes: Note[] ) => {

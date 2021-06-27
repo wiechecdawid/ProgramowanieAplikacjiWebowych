@@ -18,4 +18,13 @@ export class Notes {
         const notes = this.storage.retrieveAll().filter( (element) => element !== note )
         this.storage.saveAll(notes)
     }
+
+    update = ( id: string, note: Note ) => {
+        let notes = this.storage.retrieveAll();
+        const oldNote = notes.find( (element) => element.id === id )
+        const newNote: Note = { id: id, ...note }
+
+        const newNotes = notes.splice(notes.indexOf(oldNote), 1, newNote)
+        this.storage.saveAll(newNotes)
+    }
 }
