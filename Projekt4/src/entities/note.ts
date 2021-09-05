@@ -18,12 +18,12 @@ export class Note implements INote {
     color: ColorsEnum
     isPinned: boolean
     
-    constructor(id: string = uuid(),
-        title: string,
+    constructor(title: string,
         content: string,
+        isPinned = false,
+        color: ColorsEnum = ColorsEnum.white,
         timestamp: number = Date.now(),
-        color: ColorsEnum,
-        isPinned = false) {
+        id: string = uuid()) {
 
         this.id = id
         this.title = title
