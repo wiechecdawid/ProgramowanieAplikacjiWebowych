@@ -1,3 +1,20 @@
+$white: #ffffff;
+$yellow: #f1e206;
+$orange: #eb8b06;
+$red: #f22b0c;
+$green: #56e609;
+$blue: #0e51ed;
+$black: #00000f;
+
 body {
-  background: lightblue;
+  background: rgb(1, 10, 14);
+  color: white;
 }
+
+.note {
+  width: 50vw;
+  margin: 10px auto;
+  padding: 10px;
+  border: 2px solid white;
+}
+

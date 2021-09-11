@@ -19,7 +19,8 @@ export class App {
         content.innerText = note.content
 
         const noteElement = document.createElement('div')
-        noteElement.className = 'note'
+        noteElement.classList.add('note')
+        noteElement.classList.add(`${note.color}`)
         noteElement.style.backgroundColor = note.color.toString()
         noteElement.append(title, content)
 
@@ -29,7 +30,7 @@ export class App {
     render( notes: Note[], className: string ) {
         const root = document.querySelector('.root')
         const wrapper = document.createElement('div')
-        wrapper.className = className
+        wrapper.classList.add(className)
         root.appendChild(wrapper)
 
         const noteElements = notes.map( note => this.createNoteElement(note) )

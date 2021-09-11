@@ -7,7 +7,8 @@ interface INote {
     content: string,
     timestamp: number,
     color: ColorsEnum,
-    isPinned: boolean
+    isPinned: boolean,
+    isNew: boolean
 }
 
 export class Note implements INote {
@@ -17,10 +18,12 @@ export class Note implements INote {
     timestamp: number
     color: ColorsEnum
     isPinned: boolean
+    isNew: boolean
     
     constructor(title: string,
         content: string,
         isPinned = false,
+        isNew = true,
         color: ColorsEnum = ColorsEnum.white,
         timestamp: number = Date.now(),
         id: string = uuid()) {
@@ -31,5 +34,6 @@ export class Note implements INote {
         this.timestamp = timestamp
         this.color = color
         this.isPinned = isPinned
+        this.isNew = isNew
     }
 }
