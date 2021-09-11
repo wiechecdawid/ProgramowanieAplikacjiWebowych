@@ -7,14 +7,46 @@ $blue: #0e51ed;
 $black: #00000f;
 
 body {
-  background: rgb(1, 10, 14);
-  color: white;
+  background: $black;
+  color: $white;
 }
 
 .note {
   width: 50vw;
   margin: 10px auto;
   padding: 10px;
-  border: 2px solid white;
+  border: 2px solid $white;
+
+  & .black {
+    background: $black;
+  }
+
+  & .white{
+    background: $white;
+    color: $black;
+  }
+
+  & .yellow{
+    background: $yellow;
+    color: $black;
+  }
+
+  & .orange{
+    background: $orange;
+    color: $black;
+  }
+
+  & .green{
+    background: $green;
+    color: $black;
+  }
+
+  & .red{
+    background: $red;
+  }
+
+  & .blue{
+    background: $blue;
+  }
 }
 

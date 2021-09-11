@@ -1,6 +1,7 @@
 import { Notes } from "./collections/notes"
 import Seeder from "./collections/test-notes-seeder"
 import { Note } from "./entities/note"
+import { ColorsEnum } from "./enums/colors"
 
 export class App {
     private noteList: Notes
@@ -20,7 +21,7 @@ export class App {
 
         const noteElement = document.createElement('div')
         noteElement.classList.add('note')
-        noteElement.classList.add(`${note.color}`)
+        noteElement.classList.add(`note-${ColorsEnum[note.color]}`)
         noteElement.style.backgroundColor = note.color.toString()
         noteElement.append(title, content)
 

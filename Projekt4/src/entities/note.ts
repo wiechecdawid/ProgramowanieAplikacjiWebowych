@@ -23,8 +23,8 @@ export class Note implements INote {
     constructor(title: string,
         content: string,
         isPinned = false,
-        isNew = true,
         color: ColorsEnum = ColorsEnum.white,
+        isNew = true,
         timestamp: number = Date.now(),
         id: string = uuid()) {
 
