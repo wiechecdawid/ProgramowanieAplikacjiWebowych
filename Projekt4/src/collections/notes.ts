@@ -1,4 +1,4 @@
-import { AppStorage } from "../app-storage"
+import { AppStorage } from "../app/app-storage"
 import { Note } from "../entities/note"
 
 export class Notes {

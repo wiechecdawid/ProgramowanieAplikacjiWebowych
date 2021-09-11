@@ -1,4 +1,4 @@
-import { Note } from "./entities/note";
+import { Note } from "../entities/note";
 
 interface IAppStorage {
     saveAll: ( notes: Note[] ) => void,

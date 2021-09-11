@@ -1,12 +1,15 @@
-import { Notes } from "./collections/notes"
-import Seeder from "./collections/test-notes-seeder"
-import { Note } from "./entities/note"
-import { ColorsEnum } from "./enums/colors"
+import { Notes } from "../collections/notes"
+import Seeder from "../enums/test-notes-seeder"
+import { Note } from "../entities/note"
+import { ColorsEnum } from "../enums/colors"
 
 export class App {
     private noteList: Notes
 
     constructor() {
+        const seeder = new Seeder()
+        seeder.seed()
+
         this.noteList = new Notes()
     }
 
@@ -34,19 +37,27 @@ export class App {
         wrapper.classList.add(className)
         root.appendChild(wrapper)
 
-        const noteElements = notes.map( note => this.createNoteElement(note) )
-        wrapper.append( ...noteElements )
+        const header = document.createElement('h1')
+        header.classList.add('header')
+        header.innerText = className === 'pinned' ? 'Przypięte:' : 'Pozostałe:'
+        wrapper.appendChild(header)
+
+        const notesContainer = document.createElement('div')
+        notesContainer.classList.add('notes-container')
+        
+        const noteElements = notes.map( note => this.createNoteElement(note))
+
+        notesContainer.append( ...noteElements )
+        wrapper.appendChild(notesContainer)
+    }
+
+    start = () => {
+        this.renderPinned()
+        this.renderRemaining()
     }
 
     renderPinned = () => this.render( this.noteList.getAll().filter( note => note.isPinned ), 'pinned' )
 
     renderRemaining = () => this.render( this.noteList.getAll().filter( note => !note.isPinned ), 'unpinned' )
 
-    start = () => {
-        const seeder = new Seeder()
-        seeder.seed()
-
-        this.renderPinned()
-        this.renderRemaining()
-    }
 }
