@@ -4,11 +4,13 @@ export const controllsCreator = {
         container.classList.add('note-controlls')
 
         const pinButton = document.createElement('button')
-        pinButton.classList.add('pin-unpin')
+        pinButton.classList.add('button')
+        pinButton.classList.add('pin-unpin-button')
         pinButton.innerText = 'Pin/Unpin'
 
         const deleteButton = document.createElement('button')
-        deleteButton.classList.add('note-delete')
+        pinButton.classList.add('button')
+        deleteButton.classList.add('note-delete-button')
         deleteButton.innerHTML = '&#10006'
 
         container.append(pinButton, deleteButton)
