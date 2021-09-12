@@ -9,7 +9,7 @@ export const noteFormCreator = {
         header.classList.add('header')
 
         const form = document.createElement('form')
-        form.method = 'post'
+        //form.method = 'post'
         form.classList.add(...formClasses)
 
         const title = createInput('title')
@@ -17,6 +17,7 @@ export const noteFormCreator = {
 
         const submitButton = document.createElement('input')
         submitButton.type = 'submit'
+        submitButton.classList.add('button', 'submit-button')
 
         form.append(title, content, submitButton)
 

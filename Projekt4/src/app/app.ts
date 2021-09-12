@@ -19,6 +19,9 @@ export class App {
         const root = document.querySelector('.root')
         const form = noteFormCreator.create()
 
+        const submit = document.querySelector('.button.submit-button') as HTMLInputElement
+        submit.addEventListener('click', this.noteSubmitHandler)       
+
         root.appendChild(form)
     }
 
@@ -41,6 +44,14 @@ export class App {
         noteElement.append(controlls, title, content)
 
         return noteElement
+    }
+
+    private noteSubmitHandler = (ev: MouseEvent) => {
+        const title = document.querySelector('.input.input-title') as HTMLInputElement
+        const content = document.querySelector('.input.input-content') as HTMLInputElement
+
+        const note = new Note(title.value, content.value, false)
+        this.noteList.add(note)
     }
 
     private render( notes: Note[], className: string ) {
