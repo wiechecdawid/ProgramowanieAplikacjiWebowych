@@ -1,7 +1,8 @@
 import { Notes } from "../collections/notes"
-import Seeder from "../enums/test-notes-seeder"
+import Seeder from "../collections/test-notes-seeder"
 import { Note } from "../entities/note"
 import { ColorsEnum } from "../enums/colors"
+import { controllsCreator } from "../helpers/controlls-creator"
 
 export class App {
     private noteList: Notes
@@ -14,6 +15,10 @@ export class App {
     }
 
     createNoteElement = (note: Note) => {
+        // const controlls = document.createElement('div')
+        // controlls.classList.add('note-controlls')
+        const controlls = controllsCreator.createControlls()
+
         const title = document.createElement('div')
         title.className = 'title'
         title.innerText = note.title
@@ -25,8 +30,7 @@ export class App {
         const noteElement = document.createElement('div')
         noteElement.classList.add('note')
         noteElement.classList.add(`note-${ColorsEnum[note.color]}`)
-        noteElement.style.backgroundColor = note.color.toString()
-        noteElement.append(title, content)
+        noteElement.append(controlls, title, content)
 
         return noteElement
     }

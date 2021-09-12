@@ -1,6 +1,6 @@
 import { Note } from "../entities/note"
-import { ColorsEnum } from "./colors"
-import { Notes } from "../collections/notes"
+import { ColorsEnum } from "../enums/colors"
+import { Notes } from "./notes"
 
 
 export default class Seeder {
