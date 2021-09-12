@@ -51,13 +51,13 @@ export class App {
         wrapper.appendChild(notesContainer)
     }
 
-    start = () => {
-        this.renderPinned()
-        this.renderRemaining()
-    }
-
     renderPinned = () => this.render( this.noteList.getAll().filter( note => note.isPinned ), 'pinned' )
 
     renderRemaining = () => this.render( this.noteList.getAll().filter( note => !note.isPinned ), 'unpinned' )
 
+
+    start = () => {
+        this.renderPinned()
+        this.renderRemaining()
+    }
 }

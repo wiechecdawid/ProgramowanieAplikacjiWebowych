@@ -28,6 +28,10 @@ body {
   border: 2px solid $white;
   font-size: .8em;
 
+  .title {
+    font-size: 2em;
+  } 
+  
   &.note-black {
     background: $black;
   }
@@ -49,7 +53,7 @@ body {
 
   &.note-green{
     background: $green;
-    color: $black;
+    color: $black;   
   }
 
   &.note-red{
