@@ -3,6 +3,7 @@ import Seeder from "../collections/test-notes-seeder"
 import { Note } from "../entities/note"
 import { ColorsEnum } from "../enums/colors"
 import { controllsCreator } from "../helpers/controlls-creator"
+import { noteFormCreator } from "../helpers/note-form-creator"
 
 export class App {
     private noteList: Notes
@@ -14,7 +15,14 @@ export class App {
         this.noteList = new Notes()
     }
 
-    createNoteElement = (note: Note) => {
+    private createForm = () => {
+        const root = document.querySelector('.root')
+        const form = noteFormCreator.create()
+
+        root.appendChild(form)
+    }
+
+    private createNoteElement = (note: Note) => {
         // const controlls = document.createElement('div')
         // controlls.classList.add('note-controlls')
         const controlls = controllsCreator.createControlls()
@@ -35,7 +43,7 @@ export class App {
         return noteElement
     }
 
-    render( notes: Note[], className: string ) {
+    private render( notes: Note[], className: string ) {
         const root = document.querySelector('.root')
         const wrapper = document.createElement('div')
         wrapper.classList.add(className)
@@ -55,12 +63,13 @@ export class App {
         wrapper.appendChild(notesContainer)
     }
 
-    renderPinned = () => this.render( this.noteList.getAll().filter( note => note.isPinned ), 'pinned' )
+    private renderPinned = () => this.render( this.noteList.getAll().filter( note => note.isPinned ), 'pinned' )
 
-    renderRemaining = () => this.render( this.noteList.getAll().filter( note => !note.isPinned ), 'unpinned' )
+    private renderRemaining = () => this.render( this.noteList.getAll().filter( note => !note.isPinned ), 'unpinned' )
 
 
     start = () => {
+        this.createForm()
         this.renderPinned()
         this.renderRemaining()
     }
