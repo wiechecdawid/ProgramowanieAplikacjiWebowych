@@ -10,7 +10,7 @@ export class Notes {
 
     getAll = () => this.storage.retrieveAll().sort( (a: Note, b: Note) => b.timestamp - a.timestamp )
 
-    get = ( id: string ) => this.storage.retrieveAll().find( (note) => { note.id === id } )
+    get = ( id: string ) => this.storage.retrieveAll().find(note => note.id === id)
 
     add = ( note: Note ) => {
         const notes = [ ...this.storage.retrieveAll(), note]

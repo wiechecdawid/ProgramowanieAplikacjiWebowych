@@ -16,11 +16,16 @@ export class App {
     }
 
     private noteSubmitHandler = (ev: MouseEvent) => {
+        const button = ev.target as HTMLInputElement
+        const form = button.parentElement as HTMLFormElement
+        
         const title = document.querySelector('.input.input-title') as HTMLInputElement
         const content = document.querySelector('.input.input-content') as HTMLInputElement
 
         const note = new Note(title.value, content.value, false)
         this.noteList.add(note)
+
+        form.reset()
     }
 
     private createForm = () => {
