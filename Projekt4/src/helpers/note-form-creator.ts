@@ -25,7 +25,7 @@ export const noteFormCreator = {
         submitButton.type = 'submit'
         submitButton.classList.add('button', 'submit-button')
 
-        form.append(title, content, submitButton, dropdownLabel)
+        form.append(title, content, dropdownLabel, submitButton)
 
         wrapper.append(header, form)
 
@@ -52,11 +52,13 @@ function createDropdown(inputName: string) {
     const colors = colorsMapper.map()
 
     const dropdown = document.createElement('select')
+    dropdown.name = `${inputName}`
     dropdown.classList.add('select', `select-${inputName}`)
 
     const options = colors.map( color => {
         const opt = document.createElement('option')
         opt.classList.add('option', `option-${color}`)
+        opt.value = `${color}`
         opt.innerText = `${color}`
 
         return opt

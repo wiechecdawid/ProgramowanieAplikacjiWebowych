@@ -22,7 +22,10 @@ export class App {
         const title = document.querySelector('.input.input-title') as HTMLInputElement
         const content = document.querySelector('.input.input-content') as HTMLInputElement
 
-        const note = new Note(title.value, content.value, false)
+
+        const color = document.querySelector('.select.select-color') as HTMLSelectElement
+
+        const note = new Note(title.value, content.value, false, ColorsEnum[color.value as keyof typeof ColorsEnum])
         this.noteList.add(note)
     }
 
