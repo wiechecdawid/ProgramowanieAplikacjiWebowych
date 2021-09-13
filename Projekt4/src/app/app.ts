@@ -24,8 +24,6 @@ export class App {
 
         const note = new Note(title.value, content.value, false)
         this.noteList.add(note)
-
-        form.reset()
     }
 
     private createForm = () => {

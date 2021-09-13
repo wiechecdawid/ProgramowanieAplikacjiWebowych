@@ -34,4 +34,6 @@ function deleteHandler(ev: MouseEvent) {
 
     notesCollection.remove(noteObject)
     container.removeChild(noteElement)
+
+    location.reload()
 }
