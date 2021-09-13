@@ -1,4 +1,4 @@
-import { colorsMapper } from "./colors-mapper"
+import { colorsMapper } from "../helpers/colors-mapper"
 
 export const noteFormCreator = {
     create: () => {

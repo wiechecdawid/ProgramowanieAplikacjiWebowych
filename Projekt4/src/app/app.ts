@@ -2,8 +2,8 @@ import { Notes } from "../collections/notes"
 import Seeder from "../collections/test-notes-seeder"
 import { Note } from "../entities/note"
 import { ColorsEnum } from "../enums/colors"
-import { controllsCreator } from "../helpers/controlls-creator"
-import { noteFormCreator } from "../helpers/note-form-creator"
+import { controllsCreator } from "../elements/controlls-creator"
+import { noteFormCreator } from "../elements/note-form-creator"
 
 export class App {
     private noteList: Notes
@@ -21,7 +21,6 @@ export class App {
         
         const title = document.querySelector('.input.input-title') as HTMLInputElement
         const content = document.querySelector('.input.input-content') as HTMLInputElement
-
 
         const color = document.querySelector('.select.select-color') as HTMLSelectElement
 

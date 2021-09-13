@@ -1,5 +1,5 @@
 import { Notes } from "../collections/notes"
-import { idRetriever } from "./id-retriever"
+import { idRetriever } from "../helpers/id-retriever"
 
 export const controllsCreator = {
     createControlls: () => {
