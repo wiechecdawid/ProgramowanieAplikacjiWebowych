@@ -1,3 +1,5 @@
+import { colorsMapper } from "./colors-mapper"
+
 export const noteFormCreator = {
     create: () => {
         const formClasses = ['add-note', 'add-note-form']
@@ -15,11 +17,15 @@ export const noteFormCreator = {
         const title = createInput('title')
         const content = createInput('content')
 
+        const dropdownLabel = createLabel('color')
+        const dropdown = createDropdown('color')
+        dropdownLabel.appendChild(dropdown)
+
         const submitButton = document.createElement('input')
         submitButton.type = 'submit'
         submitButton.classList.add('button', 'submit-button')
 
-        form.append(title, content, submitButton)
+        form.append(title, content, submitButton, dropdownLabel)
 
         wrapper.append(header, form)
 
@@ -31,9 +37,7 @@ function createInput(inputName: string) {
     const wrapper = document.createElement('div')
     wrapper.classList.add(inputName)
 
-    const label = document.createElement('label')
-    label.classList.add('label', `label-${inputName}`)
-    label.innerText = `${inputName}: `
+    const label = createLabel(inputName)
 
     const input = document.createElement('input')
     input.classList.add('input', `input-${inputName}`)
@@ -42,4 +46,31 @@ function createInput(inputName: string) {
     wrapper.appendChild(label)
 
     return wrapper
+}
+
+function createDropdown(inputName: string) {
+    const colors = colorsMapper.map()
+
+    const dropdown = document.createElement('select')
+    dropdown.classList.add('select', `select-${inputName}`)
+
+    const options = colors.map( color => {
+        const opt = document.createElement('option')
+        opt.classList.add('option', `option-${color}`)
+        opt.innerText = `${color}`
+
+        return opt
+    })
+
+    dropdown.append(...options)
+
+    return dropdown
+}
+
+function createLabel(inputName: string){
+    const label = document.createElement('label')
+    label.classList.add('label', `label-${inputName}`)
+    label.innerText = `${inputName}: `
+
+    return label
 }
