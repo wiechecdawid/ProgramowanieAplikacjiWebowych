@@ -1,4 +1,5 @@
 import { Notes } from "../collections/notes"
+import { Note } from "../entities/note"
 import { idRetriever } from "../helpers/id-retriever"
 
 export const controllsCreator = {
@@ -10,6 +11,7 @@ export const controllsCreator = {
         pinButton.classList.add('button')
         pinButton.classList.add('pin-unpin-button')
         pinButton.innerText = 'Pin/Unpin'
+        pinButton.addEventListener('click', pinHandler)
 
         const deleteButton = document.createElement('button')
         pinButton.classList.add('button')
@@ -34,6 +36,24 @@ function deleteHandler(ev: MouseEvent) {
 
     notesCollection.remove(noteObject)
     container.removeChild(noteElement)
+
+    location.reload()
+}
+
+function pinHandler(ev: MouseEvent) {
+    const button = ev.target as HTMLInputElement
+    const noteElement = button.parentElement.parentElement
+
+    const id = idRetriever.retrieve(noteElement.id)
+    const notesCollection = new Notes()
+    const noteObject = notesCollection.get(id)
+
+    const pinned = noteObject.isPinned ? false : true
+        
+    notesCollection.update(noteObject.id, {
+        ...noteObject,
+        isPinned: pinned
+    } as Note)
 
     location.reload()
 }
