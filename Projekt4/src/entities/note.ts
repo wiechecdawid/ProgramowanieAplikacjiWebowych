@@ -1,15 +1,7 @@
 import { ColorsEnum } from '../enums/colors'
 import { v4 as uuid} from 'uuid'
+import { INote } from '../interfaces/INote'
 
-interface INote {
-    id: string,
-    title: string,
-    content: string,
-    timestamp: number,
-    color: ColorsEnum,
-    isPinned: boolean,
-    isNew: boolean
-}
 
 export class Note implements INote {
     id: string
