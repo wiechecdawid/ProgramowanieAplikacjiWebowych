@@ -4,6 +4,7 @@ import { Note } from "../entities/note"
 import { ColorsEnum } from "../enums/colors"
 import { controllsCreator } from "../elements/controlls-creator"
 import { noteFormCreator } from "../elements/note-form-creator"
+import { noteCreator } from "../collections/note-creator"
 
 export class App {
     private noteList: Notes
@@ -38,27 +39,7 @@ export class App {
         root.appendChild(form)
     }
 
-    private createNoteElement = (note: Note) => {
-        // const controlls = document.createElement('div')
-        // controlls.classList.add('note-controlls')
-        const controlls = controllsCreator.createControlls()
-
-        const title = document.createElement('div')
-        title.className = 'title'
-        title.innerText = note.title
-
-        const content = document.createElement('div')
-        content.className = 'content'
-        content.innerText = note.content
-
-        const noteElement = document.createElement('div')
-        noteElement.classList.add('note')
-        noteElement.classList.add(`note-${ColorsEnum[note.color]}`)
-        noteElement.id = `note-${note.id}`
-        noteElement.append(controlls, title, content)
-
-        return noteElement
-    }
+    private createNoteElement = (note: Note) => noteCreator.create(note)
 
     private render( notes: Note[], className: string ) {
         const root = document.querySelector('.root')
@@ -67,7 +48,7 @@ export class App {
         root.appendChild(wrapper)
 
         const header = document.createElement('h1')
-        header.classList.add('header')
+        header.classList.add('note-header')
         header.innerText = className === 'pinned' ? 'Przypięte:' : 'Pozostałe:'
         wrapper.appendChild(header)
 
