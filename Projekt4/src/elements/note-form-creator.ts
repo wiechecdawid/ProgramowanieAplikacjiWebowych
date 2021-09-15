@@ -12,6 +12,7 @@ export const noteFormCreator = {
         displayButton.addEventListener('click', displayForm)
 
         const form = document.createElement('form')
+        form.hidden = true
         //form.method = 'post'
         form.classList.add(...formClasses)
 
