@@ -6,9 +6,10 @@ export const noteFormCreator = {
         const wrapper = document.createElement('div')
         wrapper.classList.add(formClasses[0])
 
-        const header = document.createElement('h1')
-        header.innerText = "Dodaj notatkę"
-        header.classList.add('header')
+        const displayButton = document.createElement('button')
+        displayButton.classList.add('button', 'display-button')
+        displayButton.innerHTML = '&#43;'
+        displayButton.addEventListener('click', displayForm)
 
         const form = document.createElement('form')
         //form.method = 'post'
@@ -27,10 +28,15 @@ export const noteFormCreator = {
 
         form.append(title, content, dropdownLabel, submitButton)
 
-        wrapper.append(header, form)
+        wrapper.append(displayButton, form)
 
         return wrapper
     }
+}
+
+function displayForm() {
+    const form = document.querySelector('.add-note.add-note-form') as HTMLFormElement
+    form.hidden = form.hidden ? false: true
 }
 
 function createInput(inputName: string) {
