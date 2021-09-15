@@ -1,6 +1,7 @@
 import { controllsCreator } from "../elements/controlls-creator"
 import { Note } from "../entities/note"
 import { ColorsEnum } from "../enums/colors"
+import { timeConverter } from "../helpers/time-converter"
 
 export const noteCreator = {
     create: (note: Note) => {
@@ -8,7 +9,7 @@ export const noteCreator = {
 
         const title = document.createElement('div')
         title.className = 'title'
-        title.innerText = note.title
+        title.innerHTML = `<h1>${note.title}</h1><h5>${timeConverter.convert(note.timestamp)}</h5>`
 
         const content = document.createElement('div')
         content.className = 'content'
