@@ -9,7 +9,7 @@ export const noteCreator = {
 
         const title = document.createElement('div')
         title.className = 'title'
-        title.innerHTML = `<h1>${note.title}</h1><h5>${timeConverter.convert(note.timestamp)}</h5>`
+        title.innerHTML = `<h2>${note.title}</h2><h5>${timeConverter.convert(note.timestamp)}</h5>`
 
         const content = document.createElement('div')
         content.className = 'content'
