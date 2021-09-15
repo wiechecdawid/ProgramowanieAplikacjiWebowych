@@ -1,4 +1,4 @@
-import { controllsCreator } from "../elements/controlls-creator"
+import { controllsCreator } from "./controlls-creator"
 import { Note } from "../entities/note"
 import { ColorsEnum } from "../enums/colors"
 import { timeConverter } from "../helpers/time-converter"

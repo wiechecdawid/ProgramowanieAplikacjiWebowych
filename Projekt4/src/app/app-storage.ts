@@ -1,9 +1,5 @@
 import { Note } from "../entities/note";
-
-interface IAppStorage {
-    saveAll: ( notes: Note[] ) => void,
-    retrieveAll: () => Note[]
-}
+import { IAppStorage } from "../interfaces/IAppStorage";
 
 export class AppStorage implements IAppStorage {
     private notes: Note[];
