@@ -1,11 +1,19 @@
-import { controllsCreator } from "./controlls-creator"
+import ControllsCreator from "./controlls-creator"
 import { Note } from "../entities/note"
 import { ColorsEnum } from "../enums/colors"
 import { timeConverter } from "../helpers/time-converter"
+import { Notes } from "../collections/notes"
 
-export const noteCreator = {
-    create: (note: Note) => {
-        const controlls = controllsCreator.createControlls()
+export default class NoteCreator {
+    private notes: Notes
+
+    constructor( notes: Notes ) {
+        this.notes = notes
+    }
+
+    create = (note: Note) => {
+        const creator = new ControllsCreator(this.notes)
+        const controlls = creator.createControlls()
 
         const title = document.createElement('div')
         title.className = 'title'

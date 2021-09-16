@@ -1,33 +1,26 @@
-import { AppStorage } from "../app/app-storage"
+import { IAppStorage } from "../interfaces/IAppStorage"
 import { Note } from "../entities/note"
 
 export class Notes {
-    private storage: AppStorage
+    private storage: IAppStorage
 
-    constructor() {
-        this.storage = new AppStorage()
+    constructor( storage: IAppStorage ) {
+        this.storage = storage
     }
 
-    getAll = () => this.storage.retrieveAll().sort( (a: Note, b: Note) => b.timestamp - a.timestamp )
+    getAll = () => this.storage.readAll()
 
-    get = ( id: string ) => this.storage.retrieveAll().find(note => note.id === id)
+    get = ( id: string ) => this.storage.read(id)
 
     add = ( note: Note ) => {
-        const notes = [ ...this.storage.retrieveAll(), note]
-        this.storage.saveAll(notes)
+        this.storage.add(note)
     }
     
     remove = ( note: Note ) => {
-        const notes = this.storage.retrieveAll().filter( (element) => element !== note )
-        this.storage.saveAll(notes)
+        this.storage.delete(note)
     }
 
     update = ( id: string, note: Note ) => {
-        let notes = this.storage.retrieveAll();
-        const oldNote = notes.find(element => element.id === id)
-        const newNote = { ...note, id: id } as Note
-
-        notes.splice(notes.indexOf(oldNote), 1, newNote)
-        this.storage.saveAll(notes)
+        this.storage.update(id, note)
     }
 }

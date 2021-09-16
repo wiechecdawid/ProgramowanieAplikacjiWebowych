@@ -2,18 +2,19 @@ import { Notes } from "../collections/notes"
 import Seeder from "../collections/test-notes-seeder"
 import { Note } from "../entities/note"
 import { ColorsEnum } from "../enums/colors"
-import { controllsCreator } from "../elements/controlls-creator"
 import { noteFormCreator } from "../elements/note-form-creator"
-import { noteCreator } from "../elements/note-creator"
+import NoteCreator from "../elements/note-creator"
+import { AppStorage } from "./app-storage"
 
 export class App {
     private noteList: Notes
+    private creator: NoteCreator
 
     constructor() {
-        const seeder = new Seeder()
+        this.noteList = new Notes(new AppStorage)
+        const seeder = new Seeder(this.noteList)
+        this.creator = new NoteCreator(this.noteList)
         seeder.seed()
-
-        this.noteList = new Notes()
     }
 
     private noteSubmitHandler = (ev: MouseEvent) => {
@@ -39,7 +40,7 @@ export class App {
         root.appendChild(form)
     }
 
-    private createNoteElement = (note: Note) => noteCreator.create(note)
+    private createNoteElement = (note: Note) => this.creator.create(note)
 
     private render( notes: Note[], className: string ) {
         const root = document.querySelector('.root')
