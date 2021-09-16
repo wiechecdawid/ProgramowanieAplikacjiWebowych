@@ -11,16 +11,16 @@ export class AppStorage implements IAppStorage {
             this.notes = []
     }
 
-    add = ( note: Note) => {
-        this.notes.push(note)
-        this.saveAll(this.notes)
-    }
-
     saveAll = ( notes: Note[] ) => {
         this.notes = notes
         localStorage.setItem('notes', JSON.stringify(this.notes)) 
     }
 
+
+    add = ( note: Note) => {
+        this.notes.push(note)
+        this.saveAll(this.notes)
+    }
     read = ( id: string ) => this.notes.find(note => note.id === id)
 
     readAll = () => this.notes.sort( (a: Note, b: Note) => 

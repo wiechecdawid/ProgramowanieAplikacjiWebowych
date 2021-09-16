@@ -4,7 +4,7 @@ import { Note } from "../entities/note"
 import { ColorsEnum } from "../enums/colors"
 import { noteFormCreator } from "../elements/note-form-creator"
 import NoteCreator from "../elements/note-creator"
-import { AppStorage } from "./app-storage"
+import { AppStorage } from "../storage/app-storage"
 
 export class App {
     private noteList: Notes
