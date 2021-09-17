@@ -7,9 +7,9 @@ test('should return timestamp in proper date format', () => {
         .toEqual(new Date(timeStamp).toLocaleString())
 })
 
-test('should return message of invalid date', () => {
-    const incorrectTimeStamp = 20000000000000000
+test('should return default date if incorrect input provided', () => {
+    const incorrectTimeStamp = -158.589545
     
     expect(timeConverter.convert(incorrectTimeStamp))
-        .toEqual(new Date(incorrectTimeStamp).toLocaleString())
+        .toEqual('1/1/1970, 12:59:59 AM')
 })
